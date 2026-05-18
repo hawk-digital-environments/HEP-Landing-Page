@@ -52,7 +52,23 @@
           bars[2].style.transform = open ? 'translateY(-8px) rotate(-45deg)' : '';
         };
         btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
-        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', (e) => {
+          const target = document.querySelector(a.hash);
+          if (!target) {
+            setOpen(false);
+            return;
+          }
+
+          e.preventDefault();
+          setOpen(false);
+
+          window.setTimeout(() => {
+            const headerHeight = document.querySelector('[data-header]')?.getBoundingClientRect().height || 0;
+            const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+            window.scrollTo({ top, behavior: 'smooth' });
+            history.pushState(null, '', a.hash);
+          }, 300);
+        }));
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
         window.addEventListener('resize', () => { if (window.innerWidth >= 768) setOpen(false); });
       })();
