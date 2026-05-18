@@ -1,0 +1,426 @@
+:root {
+  --blue: #014E9E;          /* primary blue from Paper */
+  --grad-1: oklab(43.3% -0.036 -0.141);
+  --grad-2: oklab(76% -0.082 -0.067);
+  --white: #ffffff;
+  --gray-text: #585857;
+  --gray-border: #585857;
+  --text-on-blue: #ffffff;
+
+  --pad-x: 148px;
+  --pad-y: 84px;
+  --gap-cols: 24px;
+  --max-w: 1248px;
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--blue);
+  color: var(--text-on-blue);
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: #fff; color: #000; padding: .5rem 1rem; z-index: 1000;
+}
+.skip-link:focus { left: 1rem; top: 1rem; }
+
+/* ---------- Frame: outer 8px padding + 8px gap between sections ---------- */
+.page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 8px;
+  z-index: 100;
+  background: var(--blue);
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 8px 148px;
+  min-height: 64px;
+}
+.site-header__logo img {
+  width: 48px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.primary-nav { display: none; }
+.primary-nav ul {
+  display: flex; gap: 24px;
+  align-items: center; justify-content: center;
+  list-style: none; margin: 0; padding: 0;
+}
+.primary-nav a {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  color: var(--white);
+  position: relative;
+  padding: 4px 0;
+}
+.primary-nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -6px;
+  transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--white);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.primary-nav a:hover::after,
+.primary-nav a.is-active::after { opacity: 1; }
+
+.hamburger {
+  background: transparent; border: 0;
+  width: 48px; height: 48px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--white);
+  transition: transform .2s, opacity .2s;
+}
+[data-menu-open] .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+[data-menu-open] .hamburger span:nth-child(2) { opacity: 0; }
+[data-menu-open] .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (min-width: 768px) {
+  .hamburger { display: none; }
+  .primary-nav { display: block; }
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding: var(--pad-y) var(--pad-x);
+  background-image: linear-gradient(in oklab 90deg, var(--grad-1) 0%, var(--grad-2) 100%);
+  color: var(--text-on-blue);
+  scroll-margin-top: 80px;
+}
+.section--diagram {
+  background: var(--white);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Pill label ---------- */
+.pill {
+  display: inline-block;
+  background: var(--white);
+  color: var(--blue);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  padding: 4px 8px;
+  margin-bottom: 24px;
+  letter-spacing: 0;
+}
+
+/* ---------- Two column intro text ---------- */
+.two-col {
+  display: flex;
+  gap: var(--gap-cols);
+  align-items: start;
+}
+.two-col > p,
+.two-col > div { flex: 1; }
+.two-col p {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--white);
+}
+
+/* Querschnittsthemen / Wissensspeicher with side image */
+.section--with-image {
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+.section--with-image .section__text {
+  flex: 1;
+  padding: var(--pad-y) 0 var(--pad-y) var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+}
+.section--with-image .section__image {
+  width: 50%;
+  background-size: cover;
+  background-position: center;
+  align-self: stretch;
+  position: relative;
+  min-height: 348px;
+}
+.section--with-image .section__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Diagrams */
+.diagram { max-width: 777px; width: 100%; height: auto; }
+
+/* ---------- Card rows ---------- */
+.card-row {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 48px;
+  align-items: stretch;
+}
+
+.card {
+  flex: 1;
+  background: var(--white);
+  color: var(--gray-text);
+  outline: 1px solid var(--gray-border);
+  padding: 40px 24px 24px;
+  position: relative;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card h3 {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  color: var(--blue);
+}
+.card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--gray-text);
+}
+
+/* Numbered badge in top-left of card */
+.card__num {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  height: 24px;
+  min-width: 24px;
+  padding: 0 6px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+}
+
+/* Wissensspeicher: 3 + 2 wide cards */
+.card-row--wide .card { padding: 40px 24px 24px; }
+
+/* ---------- Meilensteine ---------- */
+.milestones {
+  display: flex;
+  gap: 48px;
+  align-items: stretch;
+  margin-top: 24px;
+}
+.milestones__head {
+  flex: 0 0 232px;
+  background: var(--blue);
+  color: var(--white);
+  padding: 40px 24px 24px;
+  position: relative;
+  outline: 1px solid var(--gray-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.milestones__head .card__num {
+  background: var(--white);
+  color: var(--blue);
+}
+.milestones__head h3 {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}
+.milestones__head p {
+  font-size: 12px;
+  line-height: 16px;
+  margin: 0;
+}
+.milestones__items {
+  flex: 1;
+  display: flex;
+  gap: 48px;
+  align-items: stretch;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.milestones__items .card {
+  padding: 40px 24px 24px;
+}
+.milestones__items .card__divider {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--blue);
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d0d0d0;
+  margin-bottom: 8px;
+}
+
+/* ---------- Kurzportrait image slider ---------- */
+.kurzportrait-image {
+  margin-top: 24px;
+  position: relative;
+}
+.slider { position: relative; }
+.slider__track {
+  list-style: none; margin: 0; padding: 0;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.slider__track::-webkit-scrollbar { display: none; }
+.slider__slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  position: relative;
+}
+.slider__slide figure { margin: 0; }
+.slider__slide img {
+  width: 100%;
+  height: auto;
+  max-height: 504px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay badge "50 Jahre…" on kurzportrait */
+.kurzportrait-image .badge {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  background: var(--blue);
+  color: var(--white);
+  padding: 12px 20px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.slider__dots {
+  display: flex; justify-content: center; gap: 8px;
+  margin-top: 16px; padding: 0; list-style: none;
+}
+.slider__dots button {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 0; background: rgba(255,255,255,.4);
+  cursor: pointer; padding: 0;
+}
+.slider__dots button[aria-current="true"] { background: var(--white); }
+
+/* ---------- Wissensspeicher labels overlay on building image ---------- */
+.section--wissensspeicher .section__image::after {
+  content: "WISSENSSPEICHER";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: rotate(90deg) translateX(-50%);
+  transform-origin: right top;
+  color: rgba(255,255,255,.85);
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+
+.section--wissensspeicher-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  :root { --pad-x: 64px; --pad-y: 56px; }
+  .section--with-image { flex-direction: column; }
+  .section--with-image .section__text { padding: var(--pad-y) var(--pad-x); }
+  .section--with-image .section__image { width: 100%; min-height: 240px; }
+  .milestones { flex-direction: column; }
+  .milestones__head { flex: 1; }
+  .milestones__items { flex-wrap: wrap; }
+  .milestones__items .card { flex: 1 1 240px; }
+  .card-row { flex-wrap: wrap; gap: 16px; }
+  .card-row .card { flex: 1 1 240px; }
+}
+
+@media (max-width: 767px) {
+  :root { --pad-x: 24px; --pad-y: 40px; }
+  .site-header__inner { padding: 8px 16px; }
+  .two-col { flex-direction: column; }
+  .primary-nav {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--blue);
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s ease;
+  }
+  .primary-nav ul {
+    flex-direction: column; gap: 0;
+    padding: 8px 24px 16px;
+    align-items: stretch;
+  }
+  .primary-nav a {
+    display: block; padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+  }
+  [data-menu-open] .primary-nav { max-height: 80vh; }
+  .card-row { flex-direction: column; }
+  .milestones__items { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
