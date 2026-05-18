@@ -11,28 +11,61 @@
   <div class="[font-synthesis:none] flex flex-col gap-2 bg-[#014E9E] antialiased">
 
     <!-- Header -->
-    <header class="self-stretch sticky top-0 bg-[#014E9E] z-50">
-      <div class="max-w-[1248px] mx-auto flex overflow-clip items-center px-37 py-2 justify-between gap-6">
+    <header class="self-stretch sticky top-0 bg-[#014E9E] z-50" data-header>
+      <div class="max-w-[1248px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center px-6 md:px-12 lg:px-37 py-2 gap-6">
         <a href="#top" class="w-12 h-11 shrink-0 bg-cover bg-position-[50%]" style="background-image: url('assets/logo-hawk2030.png')" aria-label="HAWK 2030"></a>
-        <nav class="flex items-center gap-6 justify-center">
+        <nav class="hidden md:flex items-center gap-4 lg:gap-6 justify-center justify-self-center whitespace-nowrap">
           <a href="#gelingendes-studium" class="font-sans font-bold text-white text-xs/4 hover:opacity-80">Gelingendes Studium</a>
           <a href="#querschnittsthemen" class="font-sans font-bold text-white text-xs/4 hover:opacity-80">Querschnittsthemen</a>
           <a href="#kurzportrait" class="font-sans font-bold text-white text-xs/4 hover:opacity-80">Kurzportrait HAWK</a>
           <a href="#meilensteine" class="font-sans font-bold text-white text-xs/4 hover:opacity-80">Meilensteine</a>
           <a href="#wissensspeicher" class="font-sans font-bold text-white text-xs/4 hover:opacity-80">Wissensspeicher</a>
         </nav>
-        <div class="overflow-clip shrink-0 size-12"></div>
+        <button type="button" class="md:hidden shrink-0 size-12 flex flex-col items-center justify-center gap-1.5 cursor-pointer justify-self-end col-start-3" data-menu-btn aria-controls="mobile-menu" aria-expanded="false" aria-label="Menü öffnen">
+          <span class="block w-6 h-0.5 bg-white transition-transform origin-center" data-bar="1"></span>
+          <span class="block w-6 h-0.5 bg-white transition-opacity" data-bar="2"></span>
+          <span class="block w-6 h-0.5 bg-white transition-transform origin-center" data-bar="3"></span>
+        </button>
       </div>
+      <nav id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out bg-[#014E9E]" data-mobile-menu>
+        <ul class="flex flex-col px-6 pb-4 gap-3">
+          <li><a href="#gelingendes-studium" class="block py-2 font-sans font-bold text-white text-sm border-b border-white/15">Gelingendes Studium</a></li>
+          <li><a href="#querschnittsthemen" class="block py-2 font-sans font-bold text-white text-sm border-b border-white/15">Querschnittsthemen</a></li>
+          <li><a href="#kurzportrait" class="block py-2 font-sans font-bold text-white text-sm border-b border-white/15">Kurzportrait HAWK</a></li>
+          <li><a href="#meilensteine" class="block py-2 font-sans font-bold text-white text-sm border-b border-white/15">Meilensteine</a></li>
+          <li><a href="#wissensspeicher" class="block py-2 font-sans font-bold text-white text-sm">Wissensspeicher</a></li>
+        </ul>
+      </nav>
     </header>
+    <script>
+      (() => {
+        const btn = document.querySelector('[data-menu-btn]');
+        const menu = document.querySelector('[data-mobile-menu]');
+        if (!btn || !menu) return;
+        const bars = btn.querySelectorAll('[data-bar]');
+        const setOpen = (open) => {
+          btn.setAttribute('aria-expanded', String(open));
+          btn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+          menu.style.maxHeight = open ? menu.scrollHeight + 'px' : '0px';
+          bars[0].style.transform = open ? 'translateY(8px) rotate(45deg)' : '';
+          bars[1].style.opacity = open ? '0' : '';
+          bars[2].style.transform = open ? 'translateY(-8px) rotate(-45deg)' : '';
+        };
+        btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+        window.addEventListener('resize', () => { if (window.innerWidth >= 768) setOpen(false); });
+      })();
+    </script>
 
     <!-- HAWK 2030 + Diagram 1 -->
     <div id="top" class="flex flex-col items-start self-stretch">
-      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
-        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-37">
+      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
+        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
           <div class="flex flex-col items-start px-2 py-1 bg-white">
             <div class="font-sans font-bold text-[#014E9E] text-base/5">HAWK 2030</div>
           </div>
-          <div class="flex items-start gap-6 self-stretch">
+          <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
             <div class="flex-1 font-sans text-white text-xs/4">„Gelingendes Studium" in das Zentrum eines Hochschulentwicklungsplans einer Hochschule für angewandte Wissenschaft und Kunst zu stellen, scheint auf den ersten Blick wenig innovativ. Was sollte daran neu sein? Haben wir das nicht schon immer gemacht? Die Antwortet lautet „Jein". Ja – Studierende stehen schon immer im Zentrum der Vorhaben. Nein – nicht bis zur letzten Konsequenz. Eine Hochschule vom gelingenden Studium aus zu denken, erfordert zum einen eine Auseinandersetzung mit der Frage, was unter diesem Begriff zu verstehen ist und zum anderen das in Beziehung setzen aller Aufgaben der Hochschulen. Die Frage, was unter gelingendem Lernen und einer qualitativ hochwertigen Lehre grundsätzlich und konkret zu verstehen ist, ist dabei nicht abschließend zu beantworten bzw. sollte auch nicht abschließend beantwortet werden. Sie stellt für eine Hochschule vielmehr eine dauerhafte Entwicklungsaufgabe dar.</div>
             <div class="flex-1 font-sans text-white text-xs/4">Die „Charta guter Lehre" des Stifterverbands für die Deutsche Wissenschaft bezeichnet den Prozess insofern zutreffend als eine „Annäherung." Unser Qualitätsverständnis beinhaltet dementsprechend, dass wir uns als Hochschule diese Frage systematisch immer wieder aufs Neue stellen, uns dieser annähern und die jeweilige Antwort in einem dauerhaft institutionalisierten, lebendigen Diskurs, an dem alle Statusgruppen mit ihrer jeweils spezifischen Perspektive beteiligt sind, formulieren. Die Frage nach der Qualität von Studium und Lehre und die vielfältigen Antworten darauf bilden so den Motor der ständigen Qualitätsentwicklung an der HAWK.</div>
           </div>
@@ -47,19 +80,19 @@
 
     <!-- Gelingendes Studium + 3 Zielbereich Karten -->
     <div id="gelingendes-studium" class="flex flex-col items-start self-stretch">
-      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
-        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-37">
+      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
+        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
           <div class="flex flex-col items-start px-2 py-1 bg-white">
             <div class="font-sans font-bold text-[#014E9E] text-base/5">GELINGENDES STUDIUM</div>
           </div>
-          <div class="flex items-start gap-6 self-stretch">
+          <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
             <div class="flex-1 whitespace-pre-wrap font-sans text-white text-xs/4">Ein gelingendes Studium kombiniert Theorie und Praxis und bereitet Studierende umfassend auf die berufliche und gesellschaftliche Zukunft vor. Es berücksichtigt individuelle sowie gemeinsame Bedürfnisse und strebt hohe Qualitätsansprüche für Studium und Abschluss an.<br /><br />Wichtige Themen wie die Attraktivität des Studienangebots, die Unterstützung bei Studienherausforderungen und die Förderung des lebenslangen Lernens werden aktiv angegangen. Lehrende absolvieren Fortbildungen, um die Studierenden bestmöglich zu unterstützen, während Studierende eigenverantwortlich und neugierig lernen und ihre Studienorganisation im individuellen Bereich selbst gestalten.</div>
             <div class="flex-1 font-sans text-white text-xs/4">Das Studium fördert kritisches Denken, Teamfähigkeit und die praktische Anwendung wissenschaftlicher Methoden. Studierende nehmen an Entscheidungsprozessen teil, insbesondere in der Lehre, und profitieren von projektbasierten Ansätzen, die forschendes Lernen betonen. Kooperationen mit Institutionen und Unternehmen sichern den Praxisbezug und bereiten auf den Berufseinstieg vor. Ein gelingendes Studium fördert Kommunikationsfähigkeit, Persönlichkeitsbildung und Diskursfähigkeit und integriert innovative, digitale Werkzeuge sowie generative KI-Systeme. Trotz notwendiger Veränderungen bleibt das Ziel, optimale Lernbedingungen zu schaffen und zukunftsweisende berufliche Fähigkeiten zu entwickeln, zentral in der Hochschulstrategie.</div>
           </div>
         </div>
       </div>
-      <div class="max-w-[1248px] w-full mx-auto bg-white py-21">
-        <div class="max-w-[1248px] mx-auto flex items-stretch justify-center px-37 gap-12">
+      <div class="max-w-[1248px] w-full mx-auto bg-white py-12 md:py-16 lg:py-21">
+        <div class="max-w-[1248px] mx-auto flex flex-col md:flex-row items-stretch justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12">
           <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
             <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Studieninteressierte und Studienanfänger*innen werden jeweils fachlich, sozial und organisational integriert.<br /><br /></div>
             <div class="flex absolute items-end -left-px -top-px h-6">
@@ -88,14 +121,14 @@
     <!-- Querschnittsthemen + Diagram 2 -->
     <div id="querschnittsthemen" class="flex flex-col items-start self-stretch">
       <div class="max-w-[1248px] w-full mx-auto overflow-clip" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
-        <div class="max-w-[1248px] mx-auto flex items-center gap-12">
-          <div class="flex items-start gap-6 flex-col justify-center pl-37 flex-1 py-21">
+        <div class="max-w-[1248px] mx-auto flex flex-col lg:flex-row items-stretch lg:items-center gap-6 md:gap-8 lg:gap-12">
+          <div class="flex items-start gap-6 flex-col justify-center pl-6 md:pl-12 lg:pl-37 flex-1 py-12 md:py-16 lg:py-21">
             <div class="flex flex-col items-start px-2 py-1 bg-white">
               <div class="font-sans font-bold text-[#014E9E] text-base/5">QUERSCHNITTSTHEMEN</div>
             </div>
             <div class="self-stretch font-sans text-white text-xs/4">In der modernen Hochschullandschaft sind digitale Transformation, Demokratie &amp; Teilhabe, Chancengleichheit &amp; Diversität und Gesundheit &amp; Fürsorge eng mit gelingendem Studium, regionaler Kooperation, Nachhaltigkeit und Studiengangsentwicklung verknüpft. Diese Themen schaffen eine ganzheitlich akademische Umgebung für zukunftsorientierte Bildung und aktive gesellschaftliche Beteiligung.</div>
           </div>
-          <div class="self-stretch w-[round(50%,1px)] bg-cover bg-position-[50%]" style="background-image: url('assets/querschnittsthemen.png')"></div>
+          <div class="w-full h-60 lg:h-auto lg:self-stretch lg:w-[round(50%,1px)] bg-cover bg-position-[50%]" style="background-image: url('assets/querschnittsthemen.png')"></div>
         </div>
       </div>
       <div class="max-w-[1248px] w-full mx-auto bg-white py-12">
@@ -107,22 +140,22 @@
 
     <!-- Kurzportrait -->
     <div id="kurzportrait" class="flex flex-col items-start self-stretch">
-      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
-        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-37">
+      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
+        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
           <div class="flex flex-col items-start px-2 py-1 bg-white">
             <div class="font-sans font-bold text-[#014E9E] text-base/5">KURZPORTRAIT</div>
           </div>
-          <div class="flex items-start gap-6 self-stretch">
+          <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
             <div class="flex-1 font-sans text-white text-xs/4">Die Hochschule für angewandte Wissenschaft und Kunst (HAWK) positioniert sich als interdisziplinäre und praxis- sowie forschungsorientierte Hochschule mit starkem regionalen Netzwerk.</div>
             <div class="flex-1 font-sans text-white text-xs/4">Wir sind der unterstützende Entwicklungsraum für die Bildungslaufbahn junger Menschen, mit dem Ziel sie als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Gesellschaft zu entlassen.</div>
           </div>
         </div>
       </div>
       <div class="max-w-[1248px] w-full mx-auto bg-white">
-        <div class="max-w-[1248px] mx-auto flex flex-col items-center justify-center h-175 pt-12 pb-37 relative shrink-0 px-37">
-          <div class="flex-1 self-stretch bg-cover bg-position-[50%]" style="background-image: url('assets/kurzportrait-1.png')"></div>
-          <div class="flex flex-col items-start w-300 absolute left-0 bottom-0 pb-12">
-            <div class="flex overflow-clip flex-col items-start gap-6 pl-37 pr-12 w-[round(50%,1px)] py-12" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
+        <div class="max-w-[1248px] mx-auto flex flex-col items-center justify-center lg:h-175 pt-12 lg:pb-37 relative shrink-0 px-6 md:px-12 lg:px-37">
+          <div class="self-stretch h-60 md:h-80 lg:flex-1 lg:h-auto bg-cover bg-position-[50%]" style="background-image: url('assets/kurzportrait-1.png')"></div>
+          <div class="flex flex-col items-start self-stretch lg:w-300 lg:absolute lg:left-0 lg:bottom-0 lg:pb-12 mt-6 lg:mt-0">
+            <div class="flex overflow-clip flex-col items-start gap-6 px-6 md:px-12 lg:pl-37 lg:pr-12 w-full lg:w-[round(50%,1px)] py-8 lg:py-12" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
               <div class="flex flex-col items-start gap-6 w-full">
                 <div class="flex flex-col items-start px-2 py-1 bg-white">
                   <div class="font-sans font-bold text-[#014E9E] text-base/5">50 Jahre anwendungsorientierte Lehre</div>
@@ -137,19 +170,19 @@
 
     <!-- Meilensteine -->
     <div id="meilensteine" class="flex flex-col items-start self-stretch">
-      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
-        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-37">
+      <div class="max-w-[1248px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
+        <div class="max-w-[1248px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
           <div class="flex flex-col items-start px-2 py-1 bg-white">
             <div class="font-sans font-bold text-[#014E9E] text-base/5">MEILENSTEINE</div>
           </div>
-          <div class="flex items-start gap-6 self-stretch">
+          <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
             <div class="flex-1 font-sans text-white text-xs/4">Hier muss noch getextet werden – et molupidi quo blaborum et, experum quaes vent optat alitis seque iunto maximod quo officto reperch ilitam, voluptisqui tetur? Ra perspelenda et la nosapel mi, sum nobitatem in cupiducides ius,</div>
             <div class="flex-1 font-sans text-white text-xs/4">nemolen delliae experrovit fugit, sinit que doluptaqui sunt hil iusa dolessitiis estrum ne vit quatem ad et res id unt a natusap eratem qui con repratum quamet esedict endust elibus abo.</div>
           </div>
         </div>
       </div>
-      <div class="max-w-[1248px] w-full mx-auto bg-white py-21">
-        <div class="max-w-[1248px] mx-auto flex items-stretch justify-center gap-12 pl-37 pr-12">
+      <div class="max-w-[1248px] w-full mx-auto bg-white py-12 md:py-16 lg:py-21">
+        <div class="max-w-[1248px] mx-auto flex flex-col lg:flex-row items-stretch justify-center gap-6 md:gap-8 lg:gap-12 pl-6 md:pl-12 lg:pl-37 pr-6 md:pr-12">
           <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative bg-[#014E9E] [outline:1px_solid_#585857] px-6">
             <div class="self-stretch font-sans text-white text-xs/4">Ziel 1: Studieninteressierte und Studienanfänger*innen werden fachlich, sozial und organisational integriert.</div>
             <div class="flex absolute items-end -left-px -top-px h-6">
@@ -182,19 +215,19 @@
     <!-- Wissensspeicher -->
     <div id="wissensspeicher" class="flex flex-col items-start self-stretch">
       <div class="max-w-[1248px] w-full mx-auto overflow-clip" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
-        <div class="max-w-[1248px] mx-auto flex items-center gap-12">
-          <div class="flex items-start gap-6 flex-col justify-center pl-37 flex-1 py-21">
+        <div class="max-w-[1248px] mx-auto flex flex-col lg:flex-row items-stretch lg:items-center gap-6 md:gap-8 lg:gap-12">
+          <div class="flex items-start gap-6 flex-col justify-center pl-6 md:pl-12 lg:pl-37 flex-1 py-12 md:py-16 lg:py-21">
             <div class="flex flex-col items-start px-2 py-1 bg-white">
               <div class="font-sans font-bold text-[#014E9E] text-base/5">WISSENSSPEICHER</div>
             </div>
             <div class="self-stretch font-sans text-white text-xs/4">Die Hochschule stellt all ihren Mitgliedern und in einem zweiten Schritt der Öffentlichkeit, einen Wissensspeicher zur Verfügung, der die Ergebnisse aus Forschung, Praxis und Transfer intuitiv und vernetzt zugänglich macht. Der WISSENSSPEICHER wird somit zu einem WISSENSSCHAFFER, da durch die nun möglichen Interaktionsformen zwischen Menschen, Menschen und Maschinen als auch digitalen Systemen untereinander erweitertes Wissen generiert und nutzbar gemacht wird.</div>
           </div>
-          <div class="self-stretch w-[round(50%,1px)] bg-cover bg-position-[50%]" style="background-image: url('assets/wissensspeicher.png')"></div>
+          <div class="w-full h-60 lg:h-auto lg:self-stretch lg:w-[round(50%,1px)] bg-cover bg-position-[50%]" style="background-image: url('assets/wissensspeicher.png')"></div>
         </div>
       </div>
-      <div class="max-w-[1248px] w-full mx-auto bg-white py-21">
-        <div class="max-w-[1248px] mx-auto flex items-center justify-center px-37 gap-12 flex-col">
-          <div class="flex items-start gap-12 self-stretch">
+      <div class="max-w-[1248px] w-full mx-auto bg-white py-12 md:py-16 lg:py-21">
+        <div class="max-w-[1248px] mx-auto flex items-center justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12 flex-col">
+          <div class="flex flex-col md:flex-row items-stretch gap-6 md:gap-8 lg:gap-12 self-stretch">
             <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
               <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Die Website „Aus der Praxis" wurde erstellt, um eine Übersicht über die vielfältigen interdisziplinären Projekte zu geben.<br /><br /><br /></div>
               <div class="flex absolute items-end -left-px -top-px h-6">
@@ -217,7 +250,7 @@
               </div>
             </div>
           </div>
-          <div class="flex items-start gap-12 self-stretch">
+          <div class="flex flex-col md:flex-row items-stretch gap-6 md:gap-8 lg:gap-12 self-stretch">
             <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
               <div class="self-stretch font-sans text-[#585857] text-xs/4">All diese Schritte basieren auf der Entwicklung von niedrigschwellig einsetzbaren Formularen/Templates, die es den Hochschulmitgliedern erlauben, Ergebnisse aus Forschung, Praxis und Transfer hochzuladen sowie parallel auf der Vektorisierung der Daten, um eine Personalisierung der Suche durch das hauseigene KI-Ökosystem HAWKI zu ermöglichen.</div>
               <div class="flex absolute items-end -left-px -top-px h-6">
