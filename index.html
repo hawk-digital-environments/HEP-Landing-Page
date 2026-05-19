@@ -6,6 +6,15 @@
   <title>HAWK 2030 — Gelingendes Studium</title>
   <meta name="description" content="HAWK 2030: Gelingendes Studium, Querschnittsthemen, Kurzportrait, Meilensteine und Wissensspeicher." />
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style>
+    [data-kurzportrait-nav]:focus,
+    [data-kurzportrait-nav]:active,
+    [data-kurzportrait-nav][data-pressed="true"] {
+      background-color: #014E9E !important;
+      color: #ffffff !important;
+      outline: none !important;
+    }
+  </style>
 </head>
 <body class="bg-[#014E9E]">
   <div class="[font-synthesis:none] flex flex-col gap-6 bg-[#014E9E] antialiased">
@@ -178,8 +187,8 @@
               <img src="assets/kurzportrait-5.png" alt="Kurzportrait Bild 5" class="h-full w-full shrink-0 object-cover" loading="lazy" data-kurzportrait-image />
             </div>
             <div class="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-3 md:px-5 pointer-events-none">
-              <button type="button" class="pointer-events-auto size-10 md:size-11 grid place-items-center bg-white/90 text-[#014E9E] font-sans font-bold text-xl leading-none hover:bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#014E9E] transition-colors" data-kurzportrait-prev aria-label="Vorheriges Bild">&larr;</button>
-              <button type="button" class="pointer-events-auto size-10 md:size-11 grid place-items-center bg-white/90 text-[#014E9E] font-sans font-bold text-xl leading-none hover:bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#014E9E] transition-colors" data-kurzportrait-next aria-label="Naechstes Bild">&rarr;</button>
+              <button type="button" class="pointer-events-auto size-10 md:size-11 grid place-items-center bg-white text-[#014E9E] font-sans font-bold text-xl leading-none hover:bg-white transition-colors" data-kurzportrait-nav data-kurzportrait-prev aria-label="Vorheriges Bild">&larr;</button>
+              <button type="button" class="pointer-events-auto size-10 md:size-11 grid place-items-center bg-white text-[#014E9E] font-sans font-bold text-xl leading-none hover:bg-white transition-colors" data-kurzportrait-nav data-kurzportrait-next aria-label="Naechstes Bild">&rarr;</button>
             </div>
           </div>
           <div class="flex flex-col items-start self-stretch lg:w-300 lg:absolute lg:left-0 lg:bottom-0 lg:pb-12">
@@ -191,11 +200,11 @@
                 <div class="self-stretch font-sans text-white text-xs/4 min-h-32 md:min-h-24" data-kurzportrait-copy aria-live="polite">Trotz der Erweiterung ihrer Aufgaben in den letzten 50 Jahren bleibt der Fokus auf anwendungsorientierter akademischer Lehre bestehen. Sie bietet dank eines breiten Fächerspektrums viele interdisziplinäre Ansätze und ist in Industrie, Wirtschaft, Handwerk sowie im Sozial- und Gesundheitswesen gut vernetzt. Die hervorragenden Lehr- und Lernangebote in Werkstätten, Skills Labs und (Real-)Laboren unterstreichen ihren Praxisbezug.</div>
                 <div class="flex items-center gap-2 w-full">
                   <div class="flex items-center gap-2" data-kurzportrait-dots>
-                    <button type="button" class="h-2 w-6 bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="true" data-kurzportrait-dot="0" aria-label="Bild 1 anzeigen"></button>
-                    <button type="button" class="h-2 w-6 bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="1" aria-label="Bild 2 anzeigen"></button>
-                    <button type="button" class="h-2 w-6 bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="2" aria-label="Bild 3 anzeigen"></button>
-                    <button type="button" class="h-2 w-6 bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="3" aria-label="Bild 4 anzeigen"></button>
-                    <button type="button" class="h-2 w-6 bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="4" aria-label="Bild 5 anzeigen"></button>
+                    <button type="button" class="h-2 w-6 rounded-full bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="true" data-kurzportrait-dot="0" aria-label="Bild 1 anzeigen"></button>
+                    <button type="button" class="h-2 w-6 rounded-full bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="1" aria-label="Bild 2 anzeigen"></button>
+                    <button type="button" class="h-2 w-6 rounded-full bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="2" aria-label="Bild 3 anzeigen"></button>
+                    <button type="button" class="h-2 w-6 rounded-full bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="3" aria-label="Bild 4 anzeigen"></button>
+                    <button type="button" class="h-2 w-6 rounded-full bg-white data-[active=false]:w-2 data-[active=false]:bg-white/45 transition-all" data-active="false" data-kurzportrait-dot="4" aria-label="Bild 5 anzeigen"></button>
                   </div>
                 </div>
               </div>
@@ -245,6 +254,7 @@
         const prev = slider.querySelector('[data-kurzportrait-prev]');
         const next = slider.querySelector('[data-kurzportrait-next]');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const pressedTimers = new WeakMap();
         let index = 0;
         let position = 0;
         let velocity = 0;
@@ -312,8 +322,23 @@
           startSpring();
         };
 
-        prev?.addEventListener('click', () => render(index - 1));
-        next?.addEventListener('click', () => render(index + 1));
+        const showNavFocus = (button) => {
+          if (!button) return;
+          window.clearTimeout(pressedTimers.get(button));
+          button.dataset.pressed = 'true';
+          pressedTimers.set(button, window.setTimeout(() => {
+            delete button.dataset.pressed;
+          }, 450));
+        };
+
+        prev?.addEventListener('click', () => {
+          showNavFocus(prev);
+          render(index - 1);
+        });
+        next?.addEventListener('click', () => {
+          showNavFocus(next);
+          render(index + 1);
+        });
         dots.forEach((dot) => {
           dot.addEventListener('click', () => render(Number(dot.dataset.kurzportraitDot)));
         });
