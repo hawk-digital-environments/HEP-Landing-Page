@@ -7,6 +7,35 @@
   <meta name="description" content="HAWK 2030: Gelingendes Studium, Querschnittsthemen, Kurzportrait, Meilensteine und Wissensspeicher." />
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <style>
+    @font-face {
+      font-family: "Fira Sans";
+      src: url("assets/fonts/FiraSans-Regular_1697536294.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Fira Sans";
+      src: url("assets/fonts/FiraSans-Medium_1577936052.otf") format("opentype");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Fira Sans";
+      src: url("assets/fonts/FiraSans-SemiBold_4232715620.otf") format("opentype");
+      font-weight: 600 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    body,
+    .font-sans {
+      font-family: "Fira Sans", Arial, sans-serif !important;
+    }
+
     [data-kurzportrait-nav]:focus,
     [data-kurzportrait-nav]:active,
     [data-kurzportrait-nav][data-pressed="true"] {
