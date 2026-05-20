@@ -42,7 +42,17 @@
     }
 
     [data-meilensteine-scroll] {
+      cursor: grab;
+      overscroll-behavior-x: contain;
+      scroll-behavior: smooth;
       scrollbar-width: none;
+    }
+
+    [data-meilensteine-scroll][data-dragging="true"] {
+      cursor: grabbing;
+      scroll-behavior: auto;
+      scroll-snap-type: none;
+      user-select: none;
     }
 
     [data-meilensteine-scroll]::-webkit-scrollbar {
@@ -662,6 +672,153 @@
         </div>
       </div>
     </div>
+    <script>
+      (() => {
+        const scroller = document.querySelector('[data-meilensteine-scroll]');
+        if (!scroller || !window.PointerEvent) return;
+
+        let pointerId;
+        let startX = 0;
+        let startScrollLeft = 0;
+        let targetScrollLeft = 0;
+        let lastX = 0;
+        let lastTime = 0;
+        let velocity = 0;
+        let scrollFrame = 0;
+        let momentumFrame = 0;
+        let moved = false;
+        let suppressClick = false;
+
+        const maxScrollLeft = () => scroller.scrollWidth - scroller.clientWidth;
+        const clampScroll = (value) => Math.min(Math.max(value, 0), maxScrollLeft());
+
+        const applyScroll = () => {
+          scrollFrame = 0;
+          scroller.scrollLeft = clampScroll(targetScrollLeft);
+        };
+
+        const scheduleScroll = () => {
+          if (scrollFrame) return;
+          scrollFrame = window.requestAnimationFrame(applyScroll);
+        };
+
+        const flushScroll = () => {
+          if (scrollFrame) {
+            window.cancelAnimationFrame(scrollFrame);
+            scrollFrame = 0;
+          }
+          scroller.scrollLeft = clampScroll(targetScrollLeft);
+        };
+
+        const cancelMomentum = () => {
+          if (!momentumFrame) return;
+          window.cancelAnimationFrame(momentumFrame);
+          momentumFrame = 0;
+        };
+
+        const finishInteraction = () => {
+          delete scroller.dataset.dragging;
+          window.setTimeout(() => {
+            moved = false;
+            suppressClick = false;
+          }, 120);
+        };
+
+        const startMomentum = () => {
+          cancelMomentum();
+
+          if (Math.abs(velocity) < 0.04) {
+            finishInteraction();
+            return;
+          }
+
+          let previousTime = window.performance.now();
+          const step = (time) => {
+            const delta = Math.min(time - previousTime, 32);
+            previousTime = time;
+            velocity *= Math.pow(0.92, delta / 16.667);
+
+            const nextScrollLeft = scroller.scrollLeft + velocity * delta;
+            const clampedScrollLeft = clampScroll(nextScrollLeft);
+            scroller.scrollLeft = clampedScrollLeft;
+
+            if (clampedScrollLeft !== nextScrollLeft || Math.abs(velocity) < 0.04) {
+              momentumFrame = 0;
+              finishInteraction();
+              return;
+            }
+
+            momentumFrame = window.requestAnimationFrame(step);
+          };
+
+          momentumFrame = window.requestAnimationFrame(step);
+        };
+
+        const stopDragging = () => {
+          if (pointerId === undefined) return;
+
+          const activePointerId = pointerId;
+          pointerId = undefined;
+
+          if (scroller.hasPointerCapture(activePointerId)) {
+            scroller.releasePointerCapture(activePointerId);
+          }
+
+          suppressClick = moved;
+          flushScroll();
+
+          if (moved) {
+            startMomentum();
+            return;
+          }
+
+          finishInteraction();
+        };
+
+        scroller.addEventListener('pointerdown', (event) => {
+          if (event.button !== 0 || event.pointerType !== 'mouse') return;
+
+          event.preventDefault();
+          cancelMomentum();
+          pointerId = event.pointerId;
+          startX = event.clientX;
+          lastX = event.clientX;
+          lastTime = event.timeStamp || window.performance.now();
+          startScrollLeft = scroller.scrollLeft;
+          targetScrollLeft = startScrollLeft;
+          velocity = 0;
+          moved = false;
+          suppressClick = false;
+          scroller.dataset.dragging = 'true';
+          scroller.setPointerCapture(pointerId);
+        });
+
+        scroller.addEventListener('pointermove', (event) => {
+          if (event.pointerId !== pointerId) return;
+
+          const deltaX = event.clientX - startX;
+          const now = event.timeStamp || window.performance.now();
+          const elapsed = Math.max(now - lastTime, 1);
+          const instantVelocity = (lastX - event.clientX) / elapsed;
+
+          if (Math.abs(deltaX) > 3) moved = true;
+          velocity = velocity * 0.65 + instantVelocity * 0.35;
+          lastX = event.clientX;
+          lastTime = now;
+          targetScrollLeft = startScrollLeft - deltaX;
+          scheduleScroll();
+        });
+
+        scroller.addEventListener('pointerup', stopDragging);
+        scroller.addEventListener('pointercancel', stopDragging);
+        scroller.addEventListener('lostpointercapture', stopDragging);
+        scroller.addEventListener('click', (event) => {
+          if (!suppressClick) return;
+          event.preventDefault();
+          event.stopPropagation();
+        }, true);
+      })();
+    </script>
 
     <!-- Wissensspeicher -->
     <div id="wissensspeicher" class="flex flex-col items-start self-stretch">
