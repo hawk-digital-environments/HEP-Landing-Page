@@ -477,7 +477,7 @@
             const span = Math.max(last - first, 1);
             const progress = clamp((window.scrollY - first) / span, 0, 1);
             const activeY = window.scrollY + headerHeight + Math.min(window.innerHeight * 0.25, 180);
-            let activeIndex = 0;
+            let activeIndex = -1;
 
             positions.forEach((position, index) => {
               if (activeY >= position) activeIndex = index;
