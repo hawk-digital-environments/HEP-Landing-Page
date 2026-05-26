@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HAWK 2030 — Gelingendes Studium</title>
   <meta name="description" content="HAWK 2030: Gelingendes Studium, Querschnittsthemen, Kurzportrait, Meilensteine und Wissensspeicher." />
+  <script>document.documentElement.classList.add('motion-ready');</script>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <style>
     @font-face {
@@ -236,6 +237,16 @@
       transition: clip-path 620ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
+    .motion-ready [data-section-body-reveal] {
+      opacity: 0;
+      transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--body-reveal-delay, 100ms);
+    }
+
+    .motion-ready [data-section-body-reveal][data-revealed="true"] {
+      opacity: 1;
+    }
+
     @media (max-width: 767px) {
       .motion-ready [data-card-reveal] {
         transform: translateY(0.375rem);
@@ -267,6 +278,11 @@
 
       .motion-ready [data-kurzportrait-title-reveal] {
         clip-path: none;
+        transition: none;
+      }
+
+      .motion-ready [data-section-body-reveal] {
+        opacity: 1;
         transition: none;
       }
 
@@ -453,8 +469,8 @@
             <div class="font-sans font-bold text-[#014E9E] text-base/5">HAWK 2030</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
-            <div class="flex-1 font-sans text-white text-xs/4">„Gelingendes Studium" in das Zentrum eines Hochschulentwicklungsplans einer Hochschule für angewandte Wissenschaft und Kunst zu stellen, scheint auf den ersten Blick wenig innovativ. Was sollte daran neu sein? Haben wir das nicht schon immer gemacht? Die Antwortet lautet „Jein". Ja – Studierende stehen schon immer im Zentrum der Vorhaben. Nein – nicht bis zur letzten Konsequenz. Eine Hochschule vom gelingenden Studium aus zu denken, erfordert zum einen eine Auseinandersetzung mit der Frage, was unter diesem Begriff zu verstehen ist und zum anderen das in Beziehung setzen aller Aufgaben der Hochschulen. Die Frage, was unter gelingendem Lernen und einer qualitativ hochwertigen Lehre grundsätzlich und konkret zu verstehen ist, ist dabei nicht abschließend zu beantworten bzw. sollte auch nicht abschließend beantwortet werden.</div>
-            <div class="flex-1 font-sans text-white text-xs/4">Sie stellt für eine Hochschule vielmehr eine dauerhafte Entwicklungsaufgabe dar. Die „Charta guter Lehre"<sup class="text-[0.6875rem] leading-none font-semibold">1</sup> des Stifterverbands für die Deutsche Wissenschaft bezeichnet den Prozess insofern zutreffend als eine „Annäherung." Unser Qualitätsverständnis beinhaltet dementsprechend, dass wir uns als Hochschule diese Frage systematisch immer wieder aufs Neue stellen, uns dieser annähern und die jeweilige Antwort in einem dauerhaft institutionalisierten, lebendigen Diskurs, an dem alle Statusgruppen mit ihrer jeweils spezifischen Perspektive beteiligt sind, formulieren. Die Frage nach der Qualität von Studium und Lehre und die vielfältigen Antworten darauf bilden so den Motor der ständigen Qualitätsentwicklung an der HAWK.<span class="mt-4 block text-xs/4 text-white/90"><sup class="text-[0.6875rem] leading-none font-semibold">1</sup> Bettina Jorzik (Hrsg.): Charta guter Lehre. Grundsätze und Leitlinien für eine bessere Lehrkultur. Essen: Stifterverband für die Deutsche Wissenschaft 2013.</span></div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>„Gelingendes Studium" in das Zentrum eines Hochschulentwicklungsplans einer Hochschule für angewandte Wissenschaft und Kunst zu stellen, scheint auf den ersten Blick wenig innovativ. Was sollte daran neu sein? Haben wir das nicht schon immer gemacht? Die Antwortet lautet „Jein". Ja – Studierende stehen schon immer im Zentrum der Vorhaben. Nein – nicht bis zur letzten Konsequenz. Eine Hochschule vom gelingenden Studium aus zu denken, erfordert zum einen eine Auseinandersetzung mit der Frage, was unter diesem Begriff zu verstehen ist und zum anderen das in Beziehung setzen aller Aufgaben der Hochschulen. Die Frage, was unter gelingendem Lernen und einer qualitativ hochwertigen Lehre grundsätzlich und konkret zu verstehen ist, ist dabei nicht abschließend zu beantworten bzw. sollte auch nicht abschließend beantwortet werden.</div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>Sie stellt für eine Hochschule vielmehr eine dauerhafte Entwicklungsaufgabe dar. Die „Charta guter Lehre"<sup class="text-[0.6875rem] leading-none font-semibold">1</sup> des Stifterverbands für die Deutsche Wissenschaft bezeichnet den Prozess insofern zutreffend als eine „Annäherung." Unser Qualitätsverständnis beinhaltet dementsprechend, dass wir uns als Hochschule diese Frage systematisch immer wieder aufs Neue stellen, uns dieser annähern und die jeweilige Antwort in einem dauerhaft institutionalisierten, lebendigen Diskurs, an dem alle Statusgruppen mit ihrer jeweils spezifischen Perspektive beteiligt sind, formulieren. Die Frage nach der Qualität von Studium und Lehre und die vielfältigen Antworten darauf bilden so den Motor der ständigen Qualitätsentwicklung an der HAWK.<span class="mt-4 block text-xs/4 text-white/90"><sup class="text-[0.6875rem] leading-none font-semibold">1</sup> Bettina Jorzik (Hrsg.): Charta guter Lehre. Grundsätze und Leitlinien für eine bessere Lehrkultur. Essen: Stifterverband für die Deutsche Wissenschaft 2013.</span></div>
           </div>
         </div>
       </div>
@@ -473,8 +489,8 @@
             <div class="font-sans font-bold text-[#014E9E] text-base/5">GELINGENDES STUDIUM</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
-            <div class="flex-1 whitespace-pre-wrap font-sans text-white text-xs/4">Ein gelingendes Studium kombiniert Theorie und Praxis und bereitet Studierende umfassend auf die berufliche und gesellschaftliche Zukunft vor. Es berücksichtigt individuelle sowie gemeinsame Bedürfnisse und strebt hohe Qualitätsansprüche für Studium und Abschluss an.<br /><br />Wichtige Themen wie die Attraktivität des Studienangebots, die Unterstützung bei Studienherausforderungen und die Förderung des lebenslangen Lernens werden aktiv angegangen. Lehrende absolvieren Fortbildungen, um die Studierenden bestmöglich zu unterstützen, während Studierende eigenverantwortlich und neugierig lernen und ihre Studienorganisation im individuellen Bereich selbst gestalten.</div>
-            <div class="flex-1 font-sans text-white text-xs/4">Das Studium fördert kritisches Denken, Teamfähigkeit und die praktische Anwendung wissenschaftlicher Methoden. Studierende nehmen an Entscheidungsprozessen teil, insbesondere in der Lehre, und profitieren von projektbasierten Ansätzen, die forschendes Lernen betonen. Kooperationen mit Institutionen und Unternehmen sichern den Praxisbezug und bereiten auf den Berufseinstieg vor. Ein gelingendes Studium fördert Kommunikationsfähigkeit, Persönlichkeitsbildung und Diskursfähigkeit und integriert innovative, digitale Werkzeuge sowie generative KI-Systeme. Trotz notwendiger Veränderungen bleibt das Ziel, optimale Lernbedingungen zu schaffen und zukunftsweisende berufliche Fähigkeiten zu entwickeln, zentral in der Hochschulstrategie.</div>
+            <div class="flex-1 whitespace-pre-wrap font-sans text-white text-xs/4" data-section-body-reveal>Ein gelingendes Studium kombiniert Theorie und Praxis und bereitet Studierende umfassend auf die berufliche und gesellschaftliche Zukunft vor. Es berücksichtigt individuelle sowie gemeinsame Bedürfnisse und strebt hohe Qualitätsansprüche für Studium und Abschluss an.<br /><br />Wichtige Themen wie die Attraktivität des Studienangebots, die Unterstützung bei Studienherausforderungen und die Förderung des lebenslangen Lernens werden aktiv angegangen. Lehrende absolvieren Fortbildungen, um die Studierenden bestmöglich zu unterstützen, während Studierende eigenverantwortlich und neugierig lernen und ihre Studienorganisation im individuellen Bereich selbst gestalten.</div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>Das Studium fördert kritisches Denken, Teamfähigkeit und die praktische Anwendung wissenschaftlicher Methoden. Studierende nehmen an Entscheidungsprozessen teil, insbesondere in der Lehre, und profitieren von projektbasierten Ansätzen, die forschendes Lernen betonen. Kooperationen mit Institutionen und Unternehmen sichern den Praxisbezug und bereiten auf den Berufseinstieg vor. Ein gelingendes Studium fördert Kommunikationsfähigkeit, Persönlichkeitsbildung und Diskursfähigkeit und integriert innovative, digitale Werkzeuge sowie generative KI-Systeme. Trotz notwendiger Veränderungen bleibt das Ziel, optimale Lernbedingungen zu schaffen und zukunftsweisende berufliche Fähigkeiten zu entwickeln, zentral in der Hochschulstrategie.</div>
           </div>
         </div>
       </div>
@@ -513,7 +529,7 @@
             <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
               <div class="font-sans font-bold text-[#014E9E] text-base/5">QUERSCHNITTSTHEMEN</div>
             </div>
-            <div class="self-stretch font-sans text-white text-xs/4">In der modernen Hochschullandschaft sind digitale Transformation, Demokratie &amp; Teilhabe, Chancengleichheit &amp; Diversität und Gesundheit &amp; Fürsorge eng mit gelingendem Studium, regionaler Kooperation, Nachhaltigkeit und Studiengangsentwicklung verknüpft. Diese Themen schaffen eine ganzheitlich akademische Umgebung für zukunftsorientierte Bildung und aktive gesellschaftliche Beteiligung.</div>
+            <div class="self-stretch font-sans text-white text-xs/4" data-section-body-reveal>In der modernen Hochschullandschaft sind digitale Transformation, Demokratie &amp; Teilhabe, Chancengleichheit &amp; Diversität und Gesundheit &amp; Fürsorge eng mit gelingendem Studium, regionaler Kooperation, Nachhaltigkeit und Studiengangsentwicklung verknüpft. Diese Themen schaffen eine ganzheitlich akademische Umgebung für zukunftsorientierte Bildung und aktive gesellschaftliche Beteiligung.</div>
           </div>
           <div class="w-full h-60 lg:h-auto lg:self-stretch lg:w-[round(50%,1px)] bg-cover bg-position-[50%]" style="background-image: url('assets/querschnittsthemen.png')"></div>
         </div>
@@ -533,8 +549,8 @@
             <div class="font-sans font-bold text-[#014E9E] text-base/5">KURZPORTRAIT</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
-            <div class="flex-1 font-sans text-white text-xs/4">Die Hochschule für angewandte Wissenschaft und Kunst (HAWK) positioniert sich als interdisziplinäre und praxis- sowie forschungsorientierte Hochschule mit starkem regionalen Netzwerk.</div>
-            <div class="flex-1 font-sans text-white text-xs/4">Wir sind der unterstützende Entwicklungsraum für die Bildungslaufbahn junger Menschen, mit dem Ziel sie als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Gesellschaft zu entlassen.</div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>Die Hochschule für angewandte Wissenschaft und Kunst (HAWK) positioniert sich als interdisziplinäre und praxis- sowie forschungsorientierte Hochschule mit starkem regionalen Netzwerk.</div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>Wir sind der unterstützende Entwicklungsraum für die Bildungslaufbahn junger Menschen, mit dem Ziel sie als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Gesellschaft zu entlassen.</div>
           </div>
         </div>
       </div>
@@ -772,8 +788,8 @@
             <div class="font-sans font-bold text-[#014E9E] text-base/5">MEILENSTEINE</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
-            <div class="flex-1 font-sans text-white text-xs/4">Hier muss noch getextet werden – et molupidi quo blaborum et, experum quaes vent optat alitis seque iunto maximod quo officto reperch ilitam, voluptisqui tetur? Ra perspelenda et la nosapel mi, sum nobitatem in cupiducides ius,</div>
-            <div class="flex-1 font-sans text-white text-xs/4">nemolen delliae experrovit fugit, sinit que doluptaqui sunt hil iusa dolessitiis estrum ne vit quatem ad et res id unt a natusap eratem qui con repratum quamet esedict endust elibus abo.</div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>Hier muss noch getextet werden – et molupidi quo blaborum et, experum quaes vent optat alitis seque iunto maximod quo officto reperch ilitam, voluptisqui tetur? Ra perspelenda et la nosapel mi, sum nobitatem in cupiducides ius,</div>
+            <div class="flex-1 font-sans text-white text-xs/4" data-section-body-reveal>nemolen delliae experrovit fugit, sinit que doluptaqui sunt hil iusa dolessitiis estrum ne vit quatem ad et res id unt a natusap eratem qui con repratum quamet esedict endust elibus abo.</div>
           </div>
         </div>
       </div>
@@ -1122,7 +1138,7 @@
             <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
               <div class="font-sans font-bold text-[#014E9E] text-base/5">WISSENSSPEICHER</div>
             </div>
-            <div class="self-stretch font-sans text-white text-xs/4">Die Hochschule stellt all ihren Mitgliedern und in einem zweiten Schritt der Öffentlichkeit, einen Wissensspeicher zur Verfügung, der die Ergebnisse aus Forschung, Praxis und Transfer intuitiv und vernetzt zugänglich macht. Der WISSENSSPEICHER wird somit zu einem WISSENSSCHAFFER, da durch die nun möglichen Interaktionsformen zwischen Menschen, Menschen und Maschinen als auch digitalen Systemen untereinander erweitertes Wissen generiert und nutzbar gemacht wird.</div>
+            <div class="self-stretch font-sans text-white text-xs/4" data-section-body-reveal>Die Hochschule stellt all ihren Mitgliedern und in einem zweiten Schritt der Öffentlichkeit, einen Wissensspeicher zur Verfügung, der die Ergebnisse aus Forschung, Praxis und Transfer intuitiv und vernetzt zugänglich macht. Der WISSENSSPEICHER wird somit zu einem WISSENSSCHAFFER, da durch die nun möglichen Interaktionsformen zwischen Menschen, Menschen und Maschinen als auch digitalen Systemen untereinander erweitertes Wissen generiert und nutzbar gemacht wird.</div>
           </div>
           <div class="w-full h-60 lg:h-auto lg:self-stretch lg:w-[round(50%,1px)] bg-cover bg-position-[50%]" style="background-image: url('assets/wissensspeicher.png')"></div>
         </div>
@@ -1175,30 +1191,44 @@
         if (!titles.length) return;
 
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        document.documentElement.classList.add('motion-ready');
-        const titleTriggers = new Map(titles.map((title) => [title.parentElement, title]));
+        const sections = new Map(titles.map((title) => {
+          const trigger = title.parentElement;
+          const bodies = Array.from(trigger.querySelectorAll('[data-section-body-reveal]'));
+          bodies.forEach((body, index) => {
+            body.style.setProperty('--body-reveal-delay', `${100 + index * 70}ms`);
+          });
+          return [trigger, { title, bodies }];
+        }));
 
-        const revealTitle = (title) => {
+        const revealSection = ({ title, bodies }) => {
           title.dataset.revealed = 'true';
+          bodies.forEach((body) => {
+            body.dataset.revealed = 'true';
+          });
         };
 
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-          titles.forEach(revealTitle);
+          sections.forEach(revealSection);
           return;
         }
 
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            revealTitle(titleTriggers.get(entry.target));
+            const section = sections.get(entry.target);
             observer.unobserve(entry.target);
+            window.requestAnimationFrame(() => {
+              window.requestAnimationFrame(() => {
+                revealSection(section);
+              });
+            });
           });
         }, {
           rootMargin: '0px 0px -10% 0px',
           threshold: 0.4
         });
 
-        titleTriggers.forEach((title, trigger) => observer.observe(trigger));
+        sections.forEach((section, trigger) => observer.observe(trigger));
       })();
     </script>
     <script>
@@ -1209,7 +1239,6 @@
         const cards = groups.flatMap((group) => Array.from(group.querySelectorAll('[data-card-reveal]')));
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const usesStackedLayout = window.matchMedia('(max-width: 767px)').matches;
-        document.documentElement.classList.add('motion-ready');
 
         const revealCard = (card, delay = 0) => {
           card.style.setProperty('--card-reveal-delay', prefersReducedMotion ? '0ms' : `${delay}ms`);
