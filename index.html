@@ -239,8 +239,8 @@
 
     .motion-ready [data-section-body-reveal] {
       opacity: 0;
-      transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--body-reveal-delay, 100ms);
+      transition: opacity 680ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: var(--body-reveal-delay, 60ms);
     }
 
     .motion-ready [data-section-body-reveal][data-revealed="true"] {
@@ -1195,7 +1195,7 @@
           const trigger = title.parentElement;
           const bodies = Array.from(trigger.querySelectorAll('[data-section-body-reveal]'));
           bodies.forEach((body, index) => {
-            body.style.setProperty('--body-reveal-delay', `${100 + index * 70}ms`);
+            body.style.setProperty('--body-reveal-delay', `${60 + index * 70}ms`);
           });
           return [trigger, { title, bodies }];
         }));
