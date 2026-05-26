@@ -210,6 +210,19 @@
       transform: translateY(0);
     }
 
+    [data-section-title-reveal] {
+      overflow: clip;
+    }
+
+    .motion-ready [data-section-title-reveal] {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 620ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .motion-ready [data-section-title-reveal][data-revealed="true"] {
+      clip-path: inset(0 0 0 0);
+    }
+
     @media (max-width: 767px) {
       .motion-ready [data-card-reveal] {
         transform: translateY(0.375rem);
@@ -231,6 +244,11 @@
       .motion-ready [data-card-reveal] {
         opacity: 1;
         transform: none;
+        transition: none;
+      }
+
+      .motion-ready [data-section-title-reveal] {
+        clip-path: none;
         transition: none;
       }
 
@@ -413,7 +431,7 @@
     <div id="top" class="-mt-6 flex flex-col items-start self-stretch">
       <div class="max-w-[1280px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
         <div class="max-w-[1280px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
-          <div class="flex flex-col items-start px-2 py-1 bg-white">
+          <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
             <div class="font-sans font-bold text-[#014E9E] text-base/5">HAWK 2030</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
@@ -433,7 +451,7 @@
     <div id="gelingendes-studium" class="flex flex-col items-start self-stretch">
       <div class="max-w-[1280px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
         <div class="max-w-[1280px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
-          <div class="flex flex-col items-start px-2 py-1 bg-white">
+          <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
             <div class="font-sans font-bold text-[#014E9E] text-base/5">GELINGENDES STUDIUM</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
@@ -474,7 +492,7 @@
       <div class="max-w-[1280px] w-full mx-auto overflow-clip" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
         <div class="max-w-[1280px] mx-auto flex flex-col lg:flex-row items-stretch lg:items-center gap-6 md:gap-8 lg:gap-12">
           <div class="flex items-start gap-6 flex-col justify-center pl-6 md:pl-12 lg:pl-37 flex-1 py-12 md:py-16 lg:py-21">
-            <div class="flex flex-col items-start px-2 py-1 bg-white">
+            <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
               <div class="font-sans font-bold text-[#014E9E] text-base/5">QUERSCHNITTSTHEMEN</div>
             </div>
             <div class="self-stretch font-sans text-white text-xs/4">In der modernen Hochschullandschaft sind digitale Transformation, Demokratie &amp; Teilhabe, Chancengleichheit &amp; Diversität und Gesundheit &amp; Fürsorge eng mit gelingendem Studium, regionaler Kooperation, Nachhaltigkeit und Studiengangsentwicklung verknüpft. Diese Themen schaffen eine ganzheitlich akademische Umgebung für zukunftsorientierte Bildung und aktive gesellschaftliche Beteiligung.</div>
@@ -493,7 +511,7 @@
     <div id="kurzportrait" class="flex flex-col items-start self-stretch">
       <div class="max-w-[1280px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
         <div class="max-w-[1280px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
-          <div class="flex flex-col items-start px-2 py-1 bg-white">
+          <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
             <div class="font-sans font-bold text-[#014E9E] text-base/5">KURZPORTRAIT</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
@@ -681,7 +699,7 @@
     <div id="meilensteine" class="flex flex-col items-start self-stretch">
       <div class="max-w-[1280px] w-full mx-auto overflow-clip py-12 md:py-16 lg:py-21" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
         <div class="max-w-[1280px] mx-auto flex flex-col items-start gap-6 px-6 md:px-12 lg:px-37">
-          <div class="flex flex-col items-start px-2 py-1 bg-white">
+          <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
             <div class="font-sans font-bold text-[#014E9E] text-base/5">MEILENSTEINE</div>
           </div>
           <div class="flex flex-col md:flex-row items-start gap-6 self-stretch">
@@ -1032,7 +1050,7 @@
       <div class="max-w-[1280px] w-full mx-auto overflow-clip" style="background-image: linear-gradient(in oklab 90deg, oklab(43.3% -0.036 -0.141) 0%, oklab(76% -0.082 -0.067) 100.01%)">
         <div class="max-w-[1280px] mx-auto flex flex-col lg:flex-row items-stretch lg:items-center gap-6 md:gap-8 lg:gap-12">
           <div class="flex items-start gap-6 flex-col justify-center pl-6 md:pl-12 lg:pl-37 flex-1 py-12 md:py-16 lg:py-21">
-            <div class="flex flex-col items-start px-2 py-1 bg-white">
+            <div class="flex flex-col items-start px-2 py-1 bg-white" data-section-title-reveal>
               <div class="font-sans font-bold text-[#014E9E] text-base/5">WISSENSSPEICHER</div>
             </div>
             <div class="self-stretch font-sans text-white text-xs/4">Die Hochschule stellt all ihren Mitgliedern und in einem zweiten Schritt der Öffentlichkeit, einen Wissensspeicher zur Verfügung, der die Ergebnisse aus Forschung, Praxis und Transfer intuitiv und vernetzt zugänglich macht. Der WISSENSSPEICHER wird somit zu einem WISSENSSCHAFFER, da durch die nun möglichen Interaktionsformen zwischen Menschen, Menschen und Maschinen als auch digitalen Systemen untereinander erweitertes Wissen generiert und nutzbar gemacht wird.</div>
@@ -1082,6 +1100,38 @@
         </div>
       </div>
     </div>
+    <script>
+      (() => {
+        const titles = Array.from(document.querySelectorAll('[data-section-title-reveal]'));
+        if (!titles.length) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.documentElement.classList.add('motion-ready');
+        const titleTriggers = new Map(titles.map((title) => [title.parentElement, title]));
+
+        const revealTitle = (title) => {
+          title.dataset.revealed = 'true';
+        };
+
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          titles.forEach(revealTitle);
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            revealTitle(titleTriggers.get(entry.target));
+            observer.unobserve(entry.target);
+          });
+        }, {
+          rootMargin: '0px 0px -10% 0px',
+          threshold: 0.4
+        });
+
+        titleTriggers.forEach((title, trigger) => observer.observe(trigger));
+      })();
+    </script>
     <script>
       (() => {
         const groups = Array.from(document.querySelectorAll('[data-card-reveal-group]'));
