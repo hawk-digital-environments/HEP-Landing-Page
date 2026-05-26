@@ -42,6 +42,98 @@
       line-height: 1.25rem;
     }
 
+    [data-diagram-zoom] {
+      margin: 0;
+    }
+
+    [data-diagram-image] {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    [data-diagram-hint] {
+      display: none;
+    }
+
+    @media (max-width: 767px) {
+      [data-diagram-image][role="button"] {
+        cursor: pointer;
+      }
+
+      [data-diagram-image][role="button"]:focus-visible {
+        outline: 2px solid #014E9E;
+        outline-offset: 0.25rem;
+      }
+
+      [data-diagram-viewport] {
+        overflow-x: hidden;
+      }
+
+      [data-diagram-zoom][data-expanded="true"] [data-diagram-viewport] {
+        margin-inline: -1.5rem;
+        padding-inline: 1.5rem;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-color: #014E9E #e6ecf3;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      [data-diagram-viewport]:focus-visible {
+        outline: 2px solid #014E9E;
+        outline-offset: 0.25rem;
+      }
+
+      [data-diagram-zoom][data-expanded="true"] [data-diagram-image] {
+        width: 48rem;
+        max-width: none;
+      }
+
+      [data-diagram-hint]:not([hidden]) {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        color: #585857;
+        font-family: "Fira Sans", Arial, sans-serif;
+        font-size: 0.8125rem;
+        line-height: 1.25rem;
+      }
+
+      [data-diagram-hint-icon] {
+        position: relative;
+        display: block;
+        flex: none;
+        width: 0.875rem;
+        height: 0.875rem;
+        color: #014E9E;
+      }
+
+      [data-diagram-hint-icon]::before,
+      [data-diagram-hint-icon]::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: calc(50% - 1px);
+        width: 0.875rem;
+        height: 2px;
+        background-color: currentColor;
+      }
+
+      [data-diagram-hint-icon]::after {
+        transform: rotate(90deg);
+      }
+
+      [data-diagram-hint-label] {
+        white-space: pre-line;
+      }
+
+      [data-diagram-zoom][data-expanded="true"] [data-diagram-hint-icon]::after {
+        display: none;
+      }
+    }
+
     [data-meilensteine-scroll] {
       cursor: grab;
       overscroll-behavior-x: contain;
@@ -543,7 +635,12 @@
       </div>
       <div class="w-full max-w-[1280px] mx-auto bg-white py-10">
         <div class="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-37">
-          <img src="assets/diagram-1.svg" alt="Diagramm: Gelingendes Studium im Zentrum" width="776.69" height="496.06" style="display: block; width: 100%; height: auto;" />
+          <figure data-diagram-zoom data-diagram-title="Diagramm Gelingendes Studium" data-expanded="false">
+            <div id="diagram-gelingendes-studium" data-diagram-viewport tabindex="-1">
+              <img data-diagram-image src="assets/diagram-1.svg" alt="Diagramm: Gelingendes Studium im Zentrum" width="776.69" height="496.06" />
+            </div>
+            <p data-diagram-hint hidden><span data-diagram-hint-icon aria-hidden="true"></span><span data-diagram-hint-label>Zum Vergrößern auf das Diagramm tippen.</span></p>
+          </figure>
         </div>
       </div>
     </div>
@@ -605,10 +702,106 @@
       </div>
       <div class="w-full max-w-[1280px] mx-auto bg-white py-10">
         <div class="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-37">
-          <img src="assets/diagram-2.svg" alt="Diagramm: Querschnittsthemen rund um Gelingendes Studium" width="777" height="394" style="display: block; width: 100%; height: auto;" />
+          <figure data-diagram-zoom data-diagram-title="Diagramm Querschnittsthemen" data-expanded="false">
+            <div id="diagram-querschnittsthemen" data-diagram-viewport tabindex="-1">
+              <img data-diagram-image src="assets/diagram-2.svg" alt="Diagramm: Querschnittsthemen rund um Gelingendes Studium" width="777" height="394" />
+            </div>
+            <p data-diagram-hint hidden><span data-diagram-hint-icon aria-hidden="true"></span><span data-diagram-hint-label>Zum Vergrößern auf das Diagramm tippen.</span></p>
+          </figure>
         </div>
       </div>
     </div>
+    <script>
+      (() => {
+        const diagrams = Array.from(document.querySelectorAll('[data-diagram-zoom]'));
+        if (!diagrams.length) return;
+
+        const mobileLayout = window.matchMedia('(max-width: 767px)');
+
+        const setExpanded = (diagram, expanded) => {
+          const image = diagram.querySelector('[data-diagram-image]');
+          const viewport = diagram.querySelector('[data-diagram-viewport]');
+          const hint = diagram.querySelector('[data-diagram-hint]');
+          const hintLabel = diagram.querySelector('[data-diagram-hint-label]');
+          if (!image || !viewport || !hint || !hintLabel) return;
+
+          const title = diagram.dataset.diagramTitle || 'Diagramm';
+          diagram.dataset.expanded = String(expanded);
+          image.setAttribute('aria-expanded', String(expanded));
+          image.setAttribute('aria-label', `${title} ${expanded ? 'verkleinern' : 'vergrößern'}`);
+          hintLabel.textContent = expanded
+            ? 'Zum Lesen horizontal wischen.\nZum Verkleinern tippen.'
+            : 'Zum Vergrößern auf das Diagramm tippen.';
+          viewport.tabIndex = expanded ? 0 : -1;
+
+          if (expanded) {
+            viewport.setAttribute('role', 'region');
+            viewport.setAttribute('aria-label', `${title}: vergrößerte Ansicht, horizontal verschiebbar`);
+          } else {
+            viewport.removeAttribute('role');
+            viewport.removeAttribute('aria-label');
+          }
+
+          if (!expanded) {
+            viewport.scrollLeft = 0;
+            return;
+          }
+
+          window.requestAnimationFrame(() => {
+            viewport.scrollLeft = Math.max((viewport.scrollWidth - viewport.clientWidth) / 2, 0);
+          });
+        };
+
+        const setMobileInteraction = (diagram, enabled) => {
+          const image = diagram.querySelector('[data-diagram-image]');
+          const hint = diagram.querySelector('[data-diagram-hint]');
+          if (!image || !hint) return;
+
+          if (!enabled) {
+            setExpanded(diagram, false);
+            image.removeAttribute('role');
+            image.removeAttribute('tabindex');
+            image.removeAttribute('aria-expanded');
+            image.removeAttribute('aria-label');
+            hint.hidden = true;
+            return;
+          }
+
+          image.setAttribute('role', 'button');
+          image.tabIndex = 0;
+          hint.hidden = false;
+          setExpanded(diagram, diagram.dataset.expanded === 'true');
+        };
+
+        diagrams.forEach((diagram) => {
+          const image = diagram.querySelector('[data-diagram-image]');
+          if (!image) return;
+
+          image.addEventListener('click', () => {
+            if (!mobileLayout.matches) return;
+            setExpanded(diagram, diagram.dataset.expanded !== 'true');
+          });
+
+          image.addEventListener('keydown', (event) => {
+            if (!mobileLayout.matches || (event.key !== 'Enter' && event.key !== ' ')) return;
+            event.preventDefault();
+            setExpanded(diagram, diagram.dataset.expanded !== 'true');
+          });
+        });
+
+        const updateInteraction = (event) => {
+          diagrams.forEach((diagram) => setMobileInteraction(diagram, event.matches));
+        };
+
+        if (typeof mobileLayout.addEventListener === 'function') {
+          mobileLayout.addEventListener('change', updateInteraction);
+        } else {
+          mobileLayout.addListener(updateInteraction);
+        }
+
+        updateInteraction(mobileLayout);
+      })();
+    </script>
 
     <!-- Kurzportrait -->
     <div id="kurzportrait" class="flex flex-col items-start self-stretch">
