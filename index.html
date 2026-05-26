@@ -246,16 +246,19 @@
 
     .motion-ready [data-card-reveal] {
       opacity: 0;
-      transform: translateY(0.625rem);
+      transform: translate3d(0, 0.625rem, 0);
+      will-change: opacity, transform;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
       transition:
-        opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
-        transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
       transition-delay: var(--card-reveal-delay, 0ms);
     }
 
     .motion-ready [data-card-reveal][data-revealed="true"] {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
     }
 
     [data-section-title-reveal] {
@@ -309,12 +312,11 @@
 
     @media (max-width: 767px) {
       .motion-ready [data-card-reveal] {
-        transform: translateY(0.375rem);
-        transition-duration: 380ms;
+        transform: translate3d(0, 0.375rem, 0);
       }
 
       .motion-ready [data-card-reveal][data-revealed="true"] {
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
       }
     }
 
@@ -328,6 +330,9 @@
       .motion-ready [data-card-reveal] {
         opacity: 1;
         transform: none;
+        will-change: auto;
+        -webkit-backface-visibility: visible;
+        backface-visibility: visible;
         transition: none;
       }
 
@@ -1342,6 +1347,12 @@
           });
         };
 
+        const queueCardReveal = (reveal) => {
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(reveal);
+          });
+        };
+
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {
           groups.forEach(revealGroup);
           return;
@@ -1349,13 +1360,17 @@
 
         if (usesStackedLayout) {
           const mobileObserver = new IntersectionObserver((entries) => {
-            entries
+            const visibleEntries = entries
               .filter((entry) => entry.isIntersecting)
-              .sort((first, second) => cards.indexOf(first.target) - cards.indexOf(second.target))
-              .forEach((entry, index) => {
-                revealCard(entry.target, index * 45);
-                mobileObserver.unobserve(entry.target);
+              .sort((first, second) => cards.indexOf(first.target) - cards.indexOf(second.target));
+
+            if (!visibleEntries.length) return;
+            visibleEntries.forEach((entry) => mobileObserver.unobserve(entry.target));
+            queueCardReveal(() => {
+              visibleEntries.forEach((entry, index) => {
+                revealCard(entry.target, index * 90);
               });
+            });
           }, {
             rootMargin: '0px 0px -6% 0px',
             threshold: 0.12
@@ -1368,8 +1383,8 @@
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            revealGroup(entry.target);
             observer.unobserve(entry.target);
+            queueCardReveal(() => revealGroup(entry.target));
           });
         }, {
           rootMargin: '0px 0px -10% 0px',
