@@ -59,6 +59,29 @@
       display: none;
     }
 
+    [data-meilensteine-goal-button] {
+      border: 1px solid #A8ADB2;
+      color: #585857;
+      background-color: #ffffff;
+      transition: color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out;
+    }
+
+    [data-meilensteine-goal-button]:hover {
+      border-color: #014E9E;
+      color: #014E9E;
+    }
+
+    [data-meilensteine-goal-button][data-active="true"] {
+      border-color: #014E9E;
+      background-color: #014E9E;
+      color: #ffffff;
+    }
+
+    [data-meilensteine-goal-button]:focus-visible {
+      outline: 2px solid #014E9E;
+      outline-offset: 2px;
+    }
+
     [data-section-progress] {
       --section-progress: 0;
     }
@@ -208,6 +231,10 @@
         opacity: 1;
         transform: none;
         transition: none;
+      }
+
+      [data-meilensteine-scroll] {
+        scroll-behavior: auto;
       }
     }
 
@@ -665,7 +692,7 @@
       <div class="max-w-[1280px] w-full mx-auto bg-white py-12 md:py-16 lg:py-21">
         <div class="max-w-[1280px] w-full mx-auto overflow-x-auto snap-x snap-mandatory pt-3 pb-4 pl-6 md:pl-12 lg:pl-37 pr-6 md:pr-12 lg:pr-37 scroll-px-6 md:scroll-px-12 lg:scroll-px-37 [scrollbar-gutter:stable]" data-meilensteine-scroll aria-label="Meilensteine Ziele">
           <div class="flex w-max items-stretch gap-12">
-            <div class="flex shrink-0 snap-start items-stretch gap-0">
+            <div id="meilensteine-ziel-1" class="flex shrink-0 snap-start items-stretch gap-0" data-meilensteine-goal>
               <div class="flex flex-col items-start w-[17.25rem] md:w-72 shrink-0 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
                 <div class="self-stretch font-sans text-[#585857] text-xs/4">Ziel 1:<br />Studieninteressierte und Studienanfänger*innen werden fachlich, sozial und organisational integriert.</div>
                 <div class="flex absolute items-end -left-px -top-px h-6">
@@ -692,7 +719,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex shrink-0 snap-start items-stretch gap-0">
+            <div id="meilensteine-ziel-2" class="flex shrink-0 snap-start items-stretch gap-0" data-meilensteine-goal>
               <div class="flex flex-col items-start w-[17.25rem] md:w-72 shrink-0 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
                 <div class="self-stretch font-sans text-[#585857] text-xs/4">Bis 2030 transformiert sich die gesamte Hochschule in ein praxisnahes, interdisziplinäres und gesamtheitlich orientiertes Umfeld und etabliert überwiegend lernfortschrittsbezogene Prüfungen.</div>
                 <div class="flex absolute items-end -left-px -top-px h-6">
@@ -731,7 +758,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex shrink-0 snap-start items-stretch gap-0">
+            <div id="meilensteine-ziel-3" class="flex shrink-0 snap-start items-stretch gap-0" data-meilensteine-goal>
               <div class="flex flex-col items-start w-[17.25rem] md:w-72 shrink-0 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
                 <div class="self-stretch font-sans text-[#585857] text-xs/4">Studierende werden als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Berufswelt entlassen.</div>
                 <div class="flex absolute items-end -left-px -top-px h-6">
@@ -772,12 +799,89 @@
             </div>
           </div>
         </div>
+        <nav class="flex flex-wrap items-center justify-center gap-0 px-6 md:px-12 lg:px-37 mt-7" data-meilensteine-goal-nav aria-label="Zielnavigation">
+          <button type="button" class="px-4 py-2 font-sans font-bold text-sm/4 cursor-pointer" data-meilensteine-goal-button="0" data-active="true" aria-controls="meilensteine-ziel-1" aria-pressed="true">Ziel 1</button>
+          <button type="button" class="px-4 py-2 font-sans font-bold text-sm/4 cursor-pointer" data-meilensteine-goal-button="1" data-active="false" aria-controls="meilensteine-ziel-2" aria-pressed="false">Ziel 2</button>
+          <button type="button" class="px-4 py-2 font-sans font-bold text-sm/4 cursor-pointer" data-meilensteine-goal-button="2" data-active="false" aria-controls="meilensteine-ziel-3" aria-pressed="false">Ziel 3</button>
+        </nav>
       </div>
     </div>
     <script>
       (() => {
         const scroller = document.querySelector('[data-meilensteine-scroll]');
-        if (!scroller || !window.PointerEvent) return;
+        if (!scroller) return;
+
+        const nav = document.querySelector('[data-meilensteine-goal-nav]');
+        const goals = Array.from(scroller.querySelectorAll('[data-meilensteine-goal]'));
+        const goalButtons = Array.from(document.querySelectorAll('[data-meilensteine-goal-button]'));
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let navigationFrame = 0;
+
+        const goalPositions = () => {
+          const initialOffset = goals[0]?.offsetLeft || 0;
+          return goals.map((goal) => goal.offsetLeft - initialOffset);
+        };
+
+        const setActiveGoal = (activeIndex) => {
+          goalButtons.forEach((button, index) => {
+            const isActive = index === activeIndex;
+            button.dataset.active = String(isActive);
+            button.setAttribute('aria-pressed', String(isActive));
+          });
+        };
+
+        const updateGoalNavigation = () => {
+          navigationFrame = 0;
+          const positions = goalPositions();
+          const activeIndex = positions.reduce((closestIndex, position, index) => (
+            Math.abs(position - scroller.scrollLeft) < Math.abs(positions[closestIndex] - scroller.scrollLeft)
+              ? index
+              : closestIndex
+          ), 0);
+
+          setActiveGoal(activeIndex);
+        };
+
+        const scheduleNavigationUpdate = () => {
+          if (navigationFrame) return;
+          navigationFrame = window.requestAnimationFrame(updateGoalNavigation);
+        };
+
+        const showGoal = (index) => {
+          const position = goalPositions()[index];
+          if (position === undefined) return;
+
+          scroller.scrollTo({
+            left: position,
+            behavior: prefersReducedMotion ? 'auto' : 'smooth'
+          });
+        };
+
+        goalButtons.forEach((button) => {
+          button.addEventListener('click', () => showGoal(Number(button.dataset.meilensteineGoalButton)));
+        });
+
+        nav?.addEventListener('keydown', (event) => {
+          const activeButtonIndex = goalButtons.indexOf(document.activeElement);
+          if (activeButtonIndex < 0) return;
+
+          let nextIndex;
+          if (event.key === 'ArrowLeft') nextIndex = Math.max(activeButtonIndex - 1, 0);
+          if (event.key === 'ArrowRight') nextIndex = Math.min(activeButtonIndex + 1, goalButtons.length - 1);
+          if (event.key === 'Home') nextIndex = 0;
+          if (event.key === 'End') nextIndex = goalButtons.length - 1;
+          if (nextIndex === undefined) return;
+
+          event.preventDefault();
+          goalButtons[nextIndex].focus();
+          showGoal(nextIndex);
+        });
+
+        scroller.addEventListener('scroll', scheduleNavigationUpdate, { passive: true });
+        window.addEventListener('resize', scheduleNavigationUpdate);
+        scheduleNavigationUpdate();
+
+        if (!window.PointerEvent) return;
 
         let pointerId;
         let startX = 0;
