@@ -172,11 +172,42 @@
       transform: scale(1.35);
     }
 
+    .motion-ready [data-card-reveal] {
+      opacity: 0;
+      transform: translateY(0.625rem);
+      transition:
+        opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--card-reveal-delay, 0ms);
+    }
+
+    .motion-ready [data-card-reveal][data-revealed="true"] {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 767px) {
+      .motion-ready [data-card-reveal] {
+        transform: translateY(0.375rem);
+        transition-duration: 380ms;
+      }
+
+      .motion-ready [data-card-reveal][data-revealed="true"] {
+        transform: translateY(0);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .section-progress-rail,
       [data-section-link] > span:first-child,
       .section-progress-step {
         animation: none;
+      }
+
+      .motion-ready [data-card-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
       }
     }
 
@@ -384,22 +415,22 @@
         </div>
       </div>
       <div class="max-w-[1280px] w-full mx-auto bg-white py-12 md:py-16 lg:py-21">
-        <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row items-stretch justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12">
-          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+        <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row items-stretch justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12" data-card-reveal-group>
+          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
             <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Studieninteressierte und Studienanfänger*innen werden jeweils fachlich, sozial und organisational integriert.<br /><br /></div>
             <div class="flex absolute items-end -left-px -top-px h-6">
               <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">1.</div></div>
               <div class="flex flex-col items-start px-2 py-1 bg-[#A8ADB2]"><div class="font-sans font-bold text-white text-xs/4">Zielbereich</div></div>
             </div>
           </div>
-          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
             <div class="self-stretch font-sans text-[#585857] text-xs/4">Bis 2030 transformiert sich die gesamte Hochschule in ein praxisnahes, interdisziplinäres und gesamtheitlich orientiertes Umfeld und etabliert überwiegend lernfortschrittsbezogene Prüfungen.</div>
             <div class="flex absolute items-end -left-px -top-px h-6">
               <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">2.</div></div>
               <div class="flex flex-col items-start px-2 py-1 bg-[#A8ADB2]"><div class="font-sans font-bold text-white text-xs/4">Zielbereich</div></div>
             </div>
           </div>
-          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
             <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Studierende werden als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Berufswelt entlassen.<br /></div>
             <div class="flex absolute items-end -left-px -top-px h-6">
               <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">3.</div></div>
@@ -905,23 +936,23 @@
         </div>
       </div>
       <div class="max-w-[1280px] w-full mx-auto bg-white py-12 md:py-16 lg:py-21">
-        <div class="max-w-[1280px] mx-auto flex items-center justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12 flex-col">
+        <div class="max-w-[1280px] mx-auto flex items-center justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12 flex-col" data-card-reveal-group>
           <div class="flex flex-col md:flex-row items-stretch gap-6 md:gap-8 lg:gap-12 self-stretch">
-            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
               <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Die Website „Aus der Praxis" wurde erstellt, um eine Übersicht über die vielfältigen interdisziplinären Projekte zu geben.<br /><br /><br /></div>
               <div class="flex absolute items-end -left-px -top-px h-6">
                 <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">1.</div></div>
                 <div class="flex flex-col items-start px-2 py-1 bg-[#A8ADB2]"><div class="font-sans font-bold text-white text-xs/4">Website „Aus der Praxis"</div></div>
               </div>
             </div>
-            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
               <div class="self-stretch font-sans text-[#585857] text-xs/4">Die Projekte werden in einen Katalog überführt. Er wird evaluiert, weiterentwickelt und dann um Projekte zu allen Bereichen des übergeordneten Ziels („Gelingendes Studium") sowie Forschungsprojekte und Paper erweitert.</div>
               <div class="flex absolute items-end -left-px -top-px h-6">
                 <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">2.</div></div>
                 <div class="flex flex-col items-start px-2 py-1 bg-[#A8ADB2]"><div class="font-sans font-bold text-white text-xs/4">Katalogisierung und Evaluation</div></div>
               </div>
             </div>
-            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
               <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Die Bereitstellung der Dokumentation soll an die Mediathek des virtuellen Campus der HAWK gekoppelt und um weitere Darstellungsformate (Videos, interaktive Workspaces) ergänzt werden.<br /></div>
               <div class="flex absolute items-end -left-px -top-px h-6">
                 <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">3.</div></div>
@@ -930,13 +961,13 @@
             </div>
           </div>
           <div class="flex flex-col md:flex-row items-stretch gap-6 md:gap-8 lg:gap-12 self-stretch">
-            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
               <div class="self-stretch font-sans text-[#585857] text-xs/4">All diese Schritte basieren auf der Entwicklung von niedrigschwellig einsetzbaren Formularen/Templates, die es den Hochschulmitgliedern erlauben, Ergebnisse aus Forschung, Praxis und Transfer hochzuladen sowie parallel auf der Vektorisierung der Daten, um eine Personalisierung der Suche durch das hauseigene KI-Ökosystem HAWKI zu ermöglichen.</div>
               <div class="flex absolute items-end -left-px -top-px h-6">
                 <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">+</div></div>
               </div>
             </div>
-            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6">
+            <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" data-card-reveal>
               <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Diese Art der Dokumentation wird ergänzt um einen „Tag des Gelingenden Studiums" und weitere Maßnahmen, die über die reine Projektdokumentation hinausgehen und diese vielmehr erfahrbar machen.<br /><br /></div>
               <div class="flex absolute items-end -left-px -top-px h-6">
                 <div class="flex flex-col items-start px-3 py-1.5 bg-[#585857]"><div class="font-sans font-bold text-white text-base/5">+</div></div>
@@ -946,6 +977,64 @@
         </div>
       </div>
     </div>
+    <script>
+      (() => {
+        const groups = Array.from(document.querySelectorAll('[data-card-reveal-group]'));
+        if (!groups.length) return;
+
+        const cards = groups.flatMap((group) => Array.from(group.querySelectorAll('[data-card-reveal]')));
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const usesStackedLayout = window.matchMedia('(max-width: 767px)').matches;
+        document.documentElement.classList.add('motion-ready');
+
+        const revealCard = (card, delay = 0) => {
+          card.style.setProperty('--card-reveal-delay', prefersReducedMotion ? '0ms' : `${delay}ms`);
+          card.dataset.revealed = 'true';
+        };
+
+        const revealGroup = (group) => {
+          Array.from(group.querySelectorAll('[data-card-reveal]')).forEach((card, index) => {
+            revealCard(card, index * 90);
+          });
+        };
+
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          groups.forEach(revealGroup);
+          return;
+        }
+
+        if (usesStackedLayout) {
+          const mobileObserver = new IntersectionObserver((entries) => {
+            entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((first, second) => cards.indexOf(first.target) - cards.indexOf(second.target))
+              .forEach((entry, index) => {
+                revealCard(entry.target, index * 45);
+                mobileObserver.unobserve(entry.target);
+              });
+          }, {
+            rootMargin: '0px 0px -6% 0px',
+            threshold: 0.12
+          });
+
+          cards.forEach((card) => mobileObserver.observe(card));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            revealGroup(entry.target);
+            observer.unobserve(entry.target);
+          });
+        }, {
+          rootMargin: '0px 0px -10% 0px',
+          threshold: 0.12
+        });
+
+        groups.forEach((group) => observer.observe(group));
+      })();
+    </script>
 
   </div>
 </body>
