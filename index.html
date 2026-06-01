@@ -421,7 +421,7 @@
 
     .motion-ready [data-image-reveal] [data-image-reveal-media] {
       scale: 1.055;
-      transition: scale 1050ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: scale 1250ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .motion-ready [data-image-reveal][data-revealed="true"] [data-image-reveal-media] {
@@ -991,6 +991,14 @@
           });
         };
 
+        const resetTitleReveal = () => {
+          if (!titleReveal) return;
+          if (titleRevealFrame) window.cancelAnimationFrame(titleRevealFrame);
+          titleRevealFrame = undefined;
+          titleReveal.dataset.animating = 'true';
+          delete titleReveal.dataset.revealed;
+        };
+
         const updateOverlayContent = (slide) => {
           const previousHeight = overlay?.getBoundingClientRect().height;
           overlayHeightAnimation?.cancel();
@@ -1041,9 +1049,14 @@
         });
         if (!prefersReducedMotion && titleReveal && 'IntersectionObserver' in window) {
           const titleObserver = new IntersectionObserver((entries) => {
-            if (!entries.some((entry) => entry.isIntersecting)) return;
-            animateTitleReveal();
-            titleObserver.disconnect();
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animateTitleReveal();
+                return;
+              }
+
+              resetTitleReveal();
+            });
           }, {
             rootMargin: '0px 0px -10% 0px',
             threshold: 0.12
@@ -1498,18 +1511,34 @@
           });
         };
 
+        const hideSection = ({ title, bodies }) => {
+          delete title.dataset.revealed;
+          bodies.forEach((body) => {
+            delete body.dataset.revealed;
+          });
+        };
+
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {
           sections.forEach(revealSection);
           return;
         }
 
+        const visibleSections = new WeakSet();
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
             const section = sections.get(entry.target);
-            observer.unobserve(entry.target);
+            if (!section) return;
+
+            if (!entry.isIntersecting) {
+              visibleSections.delete(entry.target);
+              hideSection(section);
+              return;
+            }
+
+            visibleSections.add(entry.target);
             window.requestAnimationFrame(() => {
               window.requestAnimationFrame(() => {
+                if (!visibleSections.has(entry.target)) return;
                 revealSection(section);
               });
             });
@@ -1533,18 +1562,31 @@
           image.dataset.revealed = 'true';
         };
 
+        const hideImage = (image) => {
+          delete image.dataset.revealed;
+        };
+
         if (prefersReducedMotion || !('IntersectionObserver' in window)) {
           images.forEach(revealImage);
           return;
         }
 
+        const visibleImages = new WeakSet();
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
             const image = imageTriggers.get(entry.target);
-            observer.unobserve(entry.target);
+            if (!image) return;
+
+            if (!entry.isIntersecting) {
+              visibleImages.delete(entry.target);
+              hideImage(image);
+              return;
+            }
+
+            visibleImages.add(entry.target);
             window.requestAnimationFrame(() => {
               window.requestAnimationFrame(() => {
+                if (!visibleImages.has(entry.target)) return;
                 revealImage(image);
               });
             });
@@ -1571,10 +1613,19 @@
           card.dataset.revealed = 'true';
         };
 
+        const hideCard = (card) => {
+          card.style.setProperty('--card-reveal-delay', '0ms');
+          delete card.dataset.revealed;
+        };
+
         const revealGroup = (group) => {
           Array.from(group.querySelectorAll('[data-card-reveal]')).forEach((card, index) => {
             revealCard(card, index * 90);
           });
+        };
+
+        const hideGroup = (group) => {
+          Array.from(group.querySelectorAll('[data-card-reveal]')).forEach(hideCard);
         };
 
         const queueCardReveal = (reveal) => {
@@ -1589,15 +1640,23 @@
         }
 
         if (usesStackedLayout) {
+          const visibleCards = new WeakSet();
           const mobileObserver = new IntersectionObserver((entries) => {
             const visibleEntries = entries
               .filter((entry) => entry.isIntersecting)
               .sort((first, second) => cards.indexOf(first.target) - cards.indexOf(second.target));
+            entries
+              .filter((entry) => !entry.isIntersecting)
+              .forEach((entry) => {
+                visibleCards.delete(entry.target);
+                hideCard(entry.target);
+              });
 
             if (!visibleEntries.length) return;
-            visibleEntries.forEach((entry) => mobileObserver.unobserve(entry.target));
+            visibleEntries.forEach((entry) => visibleCards.add(entry.target));
             queueCardReveal(() => {
               visibleEntries.forEach((entry, index) => {
+                if (!visibleCards.has(entry.target)) return;
                 revealCard(entry.target, index * 90);
               });
             });
@@ -1610,11 +1669,20 @@
           return;
         }
 
+        const visibleGroups = new WeakSet();
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            observer.unobserve(entry.target);
-            queueCardReveal(() => revealGroup(entry.target));
+            if (!entry.isIntersecting) {
+              visibleGroups.delete(entry.target);
+              hideGroup(entry.target);
+              return;
+            }
+
+            visibleGroups.add(entry.target);
+            queueCardReveal(() => {
+              if (!visibleGroups.has(entry.target)) return;
+              revealGroup(entry.target);
+            });
           });
         }, {
           rootMargin: '0px 0px -10% 0px',
