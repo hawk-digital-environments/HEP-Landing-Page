@@ -261,17 +261,23 @@
     }
 
     [data-wissensspeicher-card-heading] {
-      right: -1px;
       max-width: calc(100% + 2px);
     }
 
+    [data-wissensspeicher-card-heading] > div:first-child {
+      flex: 0 0 auto;
+    }
+
     [data-wissensspeicher-card-label] {
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       min-width: 0;
       overflow: hidden;
     }
 
     [data-wissensspeicher-card-label] > div {
+      display: block;
+      font-size: 0.75rem;
+      line-height: 1rem;
       overflow: hidden;
       white-space: nowrap;
     }
