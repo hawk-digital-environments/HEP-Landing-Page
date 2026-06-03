@@ -260,6 +260,18 @@
       border-color: transparent;
     }
 
+    [data-gelingendes-ziel-link] {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: outline-color 150ms ease-in-out;
+    }
+
+    [data-gelingendes-ziel-link]:focus-visible {
+      outline: 2px solid #014E9E;
+      outline-offset: 4px;
+    }
+
     [data-wissensspeicher-card-heading] {
       max-width: calc(100% + 2px);
     }
@@ -719,27 +731,27 @@
       </div>
       <div class="max-w-[1280px] w-full mx-auto bg-white py-10 md:py-14 lg:py-18">
         <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row items-stretch justify-center px-6 md:px-12 lg:px-37 gap-6 md:gap-8 lg:gap-12" data-card-reveal-group>
-          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" style="background-color: #E6EAEF" data-card-reveal>
+          <a href="#meilensteine-ziel-1" class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" style="background-color: #E6EAEF" data-gelingendes-ziel-link="0" aria-label="Zu Meilensteine Ziel 1 springen" data-card-reveal>
             <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Studieninteressierte und Studienanfänger*innen werden jeweils fachlich, sozial und organisational integriert.<br /><br /></div>
             <div class="flex absolute items-end -left-px -top-px h-6">
               <div class="flex flex-col items-start px-3 py-1.5 bg-[#014E9E]"><div class="font-sans font-bold text-white text-base/5">1.</div></div>
               <div class="flex flex-col items-start px-2 py-1 bg-[oklab(76%_-0.082_-0.067)]"><div class="font-sans font-bold text-white text-xs/4">Ziel</div></div>
             </div>
-          </div>
-          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" style="background-color: #E6EAEF" data-card-reveal>
+          </a>
+          <a href="#meilensteine-ziel-2" class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" style="background-color: #E6EAEF" data-gelingendes-ziel-link="1" aria-label="Zu Meilensteine Ziel 2 springen" data-card-reveal>
             <div class="self-stretch font-sans text-[#585857] text-xs/4">Bis 2030 transformiert sich die gesamte Hochschule in ein praxisnahes, interdisziplinäres und gesamtheitlich orientiertes Umfeld und etabliert überwiegend lernfortschrittsbezogene Prüfungen.</div>
             <div class="flex absolute items-end -left-px -top-px h-6">
               <div class="flex flex-col items-start px-3 py-1.5 bg-[#014E9E]"><div class="font-sans font-bold text-white text-base/5">2.</div></div>
               <div class="flex flex-col items-start px-2 py-1 bg-[oklab(76%_-0.082_-0.067)]"><div class="font-sans font-bold text-white text-xs/4">Ziel</div></div>
             </div>
-          </div>
-          <div class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" style="background-color: #E6EAEF" data-card-reveal>
+          </a>
+          <a href="#meilensteine-ziel-3" class="flex flex-col items-start flex-1 pt-10 pb-6 relative [outline:1px_solid_#585857] px-6" style="background-color: #E6EAEF" data-gelingendes-ziel-link="2" aria-label="Zu Meilensteine Ziel 3 springen" data-card-reveal>
             <div class="self-stretch whitespace-pre-wrap font-sans text-[#585857] text-xs/4">Studierende werden als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Berufswelt entlassen.<br /></div>
             <div class="flex absolute items-end -left-px -top-px h-6">
               <div class="flex flex-col items-start px-3 py-1.5 bg-[#014E9E]"><div class="font-sans font-bold text-white text-base/5">3.</div></div>
               <div class="flex flex-col items-start px-2 py-1 bg-[oklab(76%_-0.082_-0.067)]"><div class="font-sans font-bold text-white text-xs/4">Ziel</div></div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -1240,8 +1252,10 @@
         if (!scroller) return;
 
         const nav = document.querySelector('[data-meilensteine-goal-nav]');
+        const meilensteineSection = document.querySelector('#meilensteine');
         const goals = Array.from(scroller.querySelectorAll('[data-meilensteine-goal]'));
         const goalButtons = Array.from(document.querySelectorAll('[data-meilensteine-goal-button]'));
+        const gelingendesZielLinks = Array.from(document.querySelectorAll('[data-gelingendes-ziel-link]'));
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         let navigationFrame = 0;
 
@@ -1287,6 +1301,24 @@
 
         goalButtons.forEach((button) => {
           button.addEventListener('click', () => showGoal(Number(button.dataset.meilensteineGoalButton)));
+        });
+
+        gelingendesZielLinks.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            const index = Number(link.dataset.gelingendesZielLink);
+            if (!Number.isInteger(index)) return;
+
+            event.preventDefault();
+            showGoal(index);
+            meilensteineSection?.scrollIntoView({
+              behavior: prefersReducedMotion ? 'auto' : 'smooth',
+              block: 'start'
+            });
+
+            if (link.hash) {
+              window.history.pushState(null, '', link.hash);
+            }
+          });
         });
 
         nav?.addEventListener('keydown', (event) => {
