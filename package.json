@@ -1,0 +1,25 @@
+{
+  "name": "hep-landingpage",
+  "version": "1.0.0",
+  "description": "Static landing page for \"HAWK 2030\". The project is a single-page HTML site with local image and font assets.",
+  "main": "index.js",
+"scripts": {
+"build:css": "tailwindcss -i ./src/input.css -o ./assets/output.css --minify",
+"watch:css": "tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hawk-digital-environments/HEP-Landing-Page.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hawk-digital-environments/HEP-Landing-Page/issues"
+  },
+  "homepage": "https://github.com/hawk-digital-environments/HEP-Landing-Page#readme",
+  "private": true,
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.1",
+    "tailwindcss": "^4.3.1"
+  }
+}
